@@ -50,11 +50,7 @@ Use git for existing folder/project
    (recursive merge for more conflict)
    (failed with conflict notice)
 10. Resolving conflicts
-    (master version will be injected to branch to show difference)
-    <<<<< Head
-    ...............
-    ======
-    ...............
+    master version will be injected to branch to show difference, delete the unwanted and merge again
 11. Find out if branches have been merged
     ---git branch --merged
     ---git branch --no-merge
