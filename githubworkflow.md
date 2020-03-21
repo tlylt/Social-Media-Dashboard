@@ -59,3 +59,5 @@ Use git for existing folder/project
 13. Connect to remote repo
     ---git remote add origin link
     ---git push -u origin master (from master in local to remote repo [origin])
+14. Stay updated with remote
+    ---git pull
