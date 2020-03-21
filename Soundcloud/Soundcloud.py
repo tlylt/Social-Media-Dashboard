@@ -1,13 +1,8 @@
-import time
-import requests
-import os
-import csv
-import json
-from bs4 import BeautifulSoup
-import smtplib, ssl
+import time # SLEEP
+import smtplib, ssl # EMAIL
+import datetime # CURRENT TIME
 
-# Import selenium reqs
-from selenium import webdriver
+# SELENIUM STUFF
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -20,117 +15,156 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 import traceback
 import sys
-import datetime
+
 class Soundcloud:
     '''
     Initialize necessary variables
-    This one works for the non-public profiles
     Requires login
     '''
-    def __init__(self, ):
+    def __init__(self):
+        # WITHOUT DISPLAY
         chrome_options = Options()
         chrome_options.add_argument("--disable-extensions")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--headless")
-        self.driver = Chrome(options=chrome_options)
+        self.driver = Chrome(options=chrome_options) # INITIALIZE DRIVER
 
+        # WITH DISPLAY
         # self.driver = webdriver.Chrome()
         # self.driver.maximize_window()
 
-    # Goto public profile
+    # GO TO PODCAST
     def gotoPodcast(self, url):
         driver = self.driver
         driver.get(url)
-        print("Entering Podcast ...")
+        # print("Entering Podcast ...")
         time.sleep(2)
 
-    # Send email
-    def sendemail(self,msg):
-        port = 465  # For SSL
+    # SCRAPING
+    def getDetails(self):
+            driver = self.driver
+            # SCROLL TO BOTTOM
+            self.scrollToBottom()
+            
+            # FIND ALL SOUNCLOUD ITEMS ON PAGE
+            articles = driver.find_elements_by_xpath(".//div[@class='userStreamItem']")
+            
+            # INIT VARIABLES
+            data=[]
+            details = ""
+            count = 1
+            for article in articles:
+                # GET DESCRIPTION
+                description =article.find_element_by_xpath(".//div[@class='sound streamContext']").get_attribute('aria-label')
+                #GET REACTION IN INTEGER
+                reaction = int(article.find_element_by_xpath(".//span[@class='sc-ministats sc-ministats-small sc-ministats-plays']/span[@aria-hidden='true']").text)
+                # CONSTRUCT READABLE MESSAGE
+                details+= "View Count: "+ str(reaction).zfill(2) +" [" + description + "]\n"
+                # KEEP IN ARRAY
+                data.append([count,description,reaction])
+                # ADD COUNT
+                count+=1
+            # CURRENT TIME
+            currentDT = datetime.datetime.now()
+            # SUMMARY
+            details+=("Total Count: " +str(sum([i[2] for i in data])) +" [On " + str(currentDT) + "]\n")
+
+            return details
+
+    # SEND EMAIL REPORT
+    def sendemail(self, msg):
+        # EMAIL CONFIG
+        port = 465  # FOR SSL
         smtp_server = "smtp.gmail.com"
-        sender_email = ""  # Enter your address
-        receiver_email = ''       
+
+        # FOR DEFAULT SETTING
+        # sender_email = "" 
+        # receiver_email = ""  
+        # password = ""
+
+        # FOR CLI INPUT
+        sender_email = input("Type your Email and press enter: ")
+        receiver_email = input("Type recevier Email and press enter: ")
         password = input("Type your password and press enter: ")
+        
+        # CONSTRUCT EMAIL CONTENT
         message = "Subject: SoundCloud Stats\n\nThis message is sent from Yong.\n"
         for i in msg:
             message+=i
+        
+        # EMAIL CONFIG
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             server.sendmail(sender_email, receiver_email, message)
-    def getcracking(self,urls):
-        msgarray = []
-        for url in urls:
-            self.gotoPodcast(url)
-            msgarray.append(self.getDetails())
-            time.sleep(1)
-        self.sendemail(msgarray)
-
-    def getDetails(self):
-        driver = self.driver
-        # Scroll to bottom to load the page fully
-        # self.scrollToBottom()
-        self.scrollToN(1)
-        # print("Episodes found...")
-        articles = driver.find_elements_by_xpath(".//div[@class='userStreamItem']")
-        # print(len(articles))
-        data=[]
-        details = ""
-        count=1
-        for article in articles:
-            description =article.find_element_by_xpath(".//div[@class='sound streamContext']").get_attribute('aria-label')
-            reaction = int(article.find_element_by_xpath(".//span[@class='sc-ministats sc-ministats-small sc-ministats-plays']/span[@aria-hidden='true']").text)
-            details+= "View Count: "+ str(reaction).zfill(2) +" [" + description + "]\n"
-            data.append([count,description,reaction])
-            count+=1
-        currentDT = datetime.datetime.now()
-        details+=("Total Count: " +str(sum([i[2] for i in data])) +" [On " + str(currentDT) + "]\n")
-        # print(details)
-        return details
 
     def scrollToN(self, n_scrolls):
-        # Time to pause for the page to load
-        SCROLL_PAUSE_TIME = 5
+        # TIME TO PAUSE FOR PAGE LOADING
+        SCROLL_PAUSE_TIME = 2
 
+        # GET SCROLL HEIGHT
         driver = self.driver
-        # Get scroll height
         last_height = driver.execute_script("return document.body.scrollHeight;")
 
-        for i in range(n_scrolls):
-            # Scroll down to bottom
+        for _ in range(n_scrolls):
+            # SCROLL TO BOTTOM 
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            # Wait to load page
+            # WAIT FOR LOADING
             time.sleep(SCROLL_PAUSE_TIME)
-            # Calculate new scroll height and compare with last scroll height
+            # CALCULATE NEW SCROLL HEIGHT AND COMPARE WITH LAST SCROLL HEIGHT
             new_height = driver.execute_script("return document.body.scrollHeight;")
             if new_height == last_height:
                 break
             last_height = new_height
 
     def scrollToBottom(self):
-        # Time to pause for the page to load
+        # TIME TO PAUSE FOR PAGE LOADING
         SCROLL_PAUSE_TIME = 2
 
+        # GET SCROLL HEIGHT
         driver = self.driver
-        # Get scroll height
         last_height = driver.execute_script("return document.body.scrollHeight;")
 
         while True:
-            # Scroll down to bottom
+            # SCROLL TO BOTTOM 
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            # Wait to load page
+            
+            # WAIT FOR LOADING
             time.sleep(SCROLL_PAUSE_TIME)
-            # Calculate new scroll height and compare with last scroll height
+
+            # CALCULATE NEW SCROLL HEIGHT AND COMPARE WITH LAST SCROLL HEIGHT
             new_height = driver.execute_script("return document.body.scrollHeight;")
             if new_height == last_height:
                 break
-            last_height = new_height
+            else:
+                last_height = new_height
 
     def quitBrowser(self):
         driver = self.driver
         driver.quit()
 
+    # COMBINE ALL FUNCTIONS
+    def runTool(self,urls):
+        # KEEP INFO IN ARRAY
+        msgarray = []
+
+        # VISIT ALL URL
+        for url in urls:
+            # INIT
+            self.gotoPodcast(url)
+            # GET INFO
+            msgarray.append(self.getDetails())
+            time.sleep(1)
+
+        # CLEAR BROWSER
+        self.quitBrowser()
+        # SEND EMAIL
+        self.sendemail(msgarray)
+
+        print("DONE")
+
+# EXECUTE 
 soundcloud = Soundcloud()
-soundcloud.getcracking(['https://soundcloud.com/xl-podcast','https://soundcloud.com/schoolofthefuture'])
+soundcloud.runTool(['https://soundcloud.com/xl-podcast','https://soundcloud.com/schoolofthefuture'])
 
 
