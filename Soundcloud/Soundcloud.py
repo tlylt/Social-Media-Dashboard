@@ -30,7 +30,7 @@ class Soundcloud:
         self.driver = Chrome(options=chrome_options) # INITIALIZE DRIVER
 
         # WITH DISPLAY
-        # self.driver = webdriver.Chrome()
+        # self.driver = Chrome()
         # self.driver.maximize_window()
 
     # GO TO PODCAST
@@ -100,7 +100,7 @@ class Soundcloud:
 
     def scrollToN(self, n_scrolls):
         # TIME TO PAUSE FOR PAGE LOADING
-        SCROLL_PAUSE_TIME = 2
+        SCROLL_PAUSE_TIME = 3
 
         # GET SCROLL HEIGHT
         driver = self.driver
@@ -119,7 +119,7 @@ class Soundcloud:
 
     def scrollToBottom(self):
         # TIME TO PAUSE FOR PAGE LOADING
-        SCROLL_PAUSE_TIME = 2
+        SCROLL_PAUSE_TIME = 3
 
         # GET SCROLL HEIGHT
         driver = self.driver
