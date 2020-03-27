@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <!-- BANNER -->
+    <div id="banner">
+      <div class="wrapper">
+        <!-- HEADER -->
+        <header>
+          <!-- <h1 class="logo">Logo</h1> -->
+          <div class="menu-button">
+            <h4>Menu-button</h4>
+          </div>
+          <nav>
+            <a href="#">Home</a>
+            <!-- <a href="#">Portfolio</a>
+            <a href="#">Services</a> -->
+            <a href="#contact" class="button button_secondary sm-button"
+              >Get in touch</a
+            >
+          </nav>
+        </header>
+        <!-- END HEADER -->
+        <div class="content">
+          <h1 class="title">
+            Track Your
+            <span
+              class="txt-type"
+              data-wait="1000"
+              data-words='["Linkedin", "Instagram", "Soundcloud","Spotify"]'
+            ></span>
+          </h1>
+          <h1 class="title">
+            We help you visualize your social media influence.
+          </h1>
+          <h2 class="sub_title">
+            A team of two, powered by web scraping, automation and data
+            visualization tools. Let us do the heavylifting for you.
+          </h2>
+
+          <!-- <div class="button_wrapper">
+            <a href="#" class="button button_highlight">Learn More</a>
+            <a href="#" class="button button_secondary">Play Video</a>
+          </div> -->
+          <img
+            style="display: none"
+            src="https://github.com/ajayrexluega/Design-Agency-Landing-Page/blob/master/images/arrows_down.png?raw=true"
+            alt="See More"
+            class="see_more"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- END BANNER -->
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="wrapper">
+        <ul class="branding">
+          <li><h1 class="service_title">Daily Report</h1></li>
+          <li>
+            <p>
+              Scheduled email to update your social media data. Allow you to get
+              up-to-date information, delievered right to your inbox.
+            </p>
+          </li>
+          <li><a href="#" class="button button_highlight">Learn More</a></li>
+        </ul>
+        <ul class="design">
+          <li><h1 class="service_title">Graph Analysis</h1></li>
+          <li>
+            <p>
+              The longer you stay with us, the more datapoints we will gather
+              for you. We provide time based graph analysis to observe and
+              interpret trends for you.
+            </p>
+          </li>
+          <li><a href="#" class="button button_highlight">Learn More</a></li>
+        </ul>
+        <ul class="development">
+          <li><h1 class="service_title">Dashboard</h1></li>
+          <li>
+            <p>
+              We built an online dashboard for you to see all your analysis
+              reports. One stop platform ready at your service.
+            </p>
+          </li>
+          <li><a href="#" class="button button_highlight">Learn More</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- END SERVICES -->
+
+    <!-- PAST WORKS -->
+    <section id="past_work">
+      <div class="wrapper">
+        <h2 class="title">What We Do</h2>
+        <!-- insert brand logos -->
+        <!-- <img
+          src="https://github.com/ajayrexluega/Design-Agency-Landing-Page/blob/master/images/logos.png?raw=true"
+          alt="Past client"
+          class="logos"
+        /> -->
+
+        <ul id="slider_buttons">
+          <a href="#">
+            <li class="current"></li>
+          </a>
+          <a href="#">
+            <li></li>
+          </a>
+          <a href="#">
+            <li></li>
+          </a>
+        </ul>
+
+        <ul id="slider">
+          <li>
+            <img
+              src="https://cdn.pixabay.com/photo/2018/01/17/20/22/analytics-3088958_960_720.jpg"
+              alt="messy data"
+            />
+          </li>
+          <li>
+            <img
+              src="https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_960_720.jpg"
+              alt="process data"
+            />
+          </li>
+          <li>
+            <img
+              src="https://cdn.pixabay.com/photo/2015/09/05/22/46/business-925900_960_720.jpg"
+              alt="graph"
+            />
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- END PAST WORKS -->
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="wrapper">
+        <h1 class="title">Get in touch</h1>
+        <p class="sub_title">
+          Try us. Give us your social media handle and we will send you a free
+          report. How cool is that?!
+        </p>
+        <a href="#contact" class="button button_highlight">Contact Us</a>
+      </div>
+    </section>
+    <script
+      type="text/javascript"
+      src="https://form.jotform.com/jsform/200864304417450"
+    ></script>
+    <!-- END CONTACT -->
+
+    <!-- FOOTER -->
+    <footer>
+      <p class="copyright">&copy; 2020 <a href="#">tlylt and tim</a></p>
+    </footer>
+    <!-- END FOOTER -->
+  </body>
+</html>
